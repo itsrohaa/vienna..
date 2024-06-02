@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vienna is here</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffd700;
+            text-align: center;
+            padding: 50px;
+        }
+        #first-page, #second-page {
+            display: none;
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #ffd700;
+        }
+        #first-page {
+            display: block;
+        }
+        button {
+            background-color: #ffd700;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #ffbf00;
+        }
+        input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 4px;
+            color: #000;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <!-- صفحه اول با دکمه Verify -->
+    <div id="first-page">
+        <h1>vienna is here</h1>
+        <button id="verify-button">Verify</button>
+    </div>
+
+    <!-- صفحه دوم با فرم -->
+    <div id="second-page">
+        <form id="verification-form">
+            <h2>Verification Form</h2>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br>
+            <label for="age">Age:</label>
+            <input type="text" id="age" name="age" required><br>
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- جاوااسکریپت برای تغییر صفحات و ارسال اطلاعات به کانال دیسکورد -->
+    <script>
+        document.getElementById('verify-button').addEventListener('click', function() {
+            document.getElementById('first-page').style.display = 'none';
+            document.getElementById('second-page').style.display = 'block';
+        });
+
+        document.getElementById('verification-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var name = document.getElementById('name').value;
+            var age = document.getElementById('age').value;
+            var city = document.getElementById('city').value;
+            var userId = '123456789';
+            // اطلاعات فرم و کاربر را به کانال دیسکورد ارسال کنید
+            var webhookUrl = 'https://discord.com/api/webhooks/1246609797613223977/OFnIvtva-EqzGjjr13_YClSWqOd_gVGLf26U8FUFWbRCklPgKAVuHpF8Lu70UC7-DxHp'; 
+            var message = {
+                content: `User ID: ${userId}\nName: ${name}\nAge: ${age}\nCity: ${city}`
+            };
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(message)
+            }).then(response => {
+                if (response.ok) {
+                    alert('برام اومد درخواستت اوکیش میکنم صبر داشته باش');
+                } else {
+                    alert('Failed to send user ID to Discord.');
+                }
+            }).catch(error => {
+                alert('Error: ' + error);
+            });
+        });
+    </script>
+</body>
+</html>
